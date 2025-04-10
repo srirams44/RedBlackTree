@@ -8,9 +8,11 @@ class RedBlackTree {
 public:
     RedBlackTree();
     ~RedBlackTree();
+    void add(int value);
 private:
     Node* root;
     void deleteTree(Node* node);
+    Node* addHelper(Node* node, int value, Node* parent);
 
 };
 
