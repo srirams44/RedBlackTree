@@ -20,73 +20,34 @@ void RedBlackTree::add(int value) {
     if (!root) { //if no tree
         root = new Node(value);
         root->parent = nullptr; //root has no parent
+        root->color = black;
         return;
     }
-    root = addHelper(root, value, nullptr);
+    Node* insertedNode = nullptr;
+    root = addHelper(root, value, nullptr, insertedNode);
+    fixInsert(insertedNode); //fix violations to redBlacktree after inserting
 }
 
-Node* RedBlackTree::addHelper(Node* node, int value, Node* parent) {
+Node* RedBlackTree::addHelper(Node* node, int value, Node* parent, Node* &insertedNode) {
     if (!node) {
         Node* newNode = new Node(value);
         newNode->parent = parent;
+        insertedNode = newNode;
         return newNode;
     }
 
+
     if (value < node->data) { //if less, go to the left child
-        node->leftChild = addHelper(node->leftChild, value, node);
+        node->leftChild = addHelper(node->leftChild, value, node, insertedNode);
     }
     else if (value > node->data) { //if more, go to the right child
-        node->rightChild = addHelper(node->rightChild, value, node);
+        node->rightChild = addHelper(node->rightChild, value, node, insertedNode);
     }
     //if duplicate do nothing
 
     return node;
 }
 
-void RedBlackTree::fixInsert(Node* node) {
-    //this function will fix the red-black tree properties after insertion
-    while (node != root && node->parent->color == red) {
-        //keep fixing until either the root or the parent is black
-        Node* parent = node->parent;
-        Node* grandparent = parent->parent;
-
-        if (parent == grandparent->leftChild) {
-            //if parent is the child of the grandparent
-            Node* uncle = grandparent->rightChild; //sibling of the parent
-
-            if (uncle && uncle->color == red) {
-                //if uncle is red, just recolor
-                parent->color = black;
-                uncle->color = black;
-                grandparent->color = red;
-                node = grandparent; //move up tree and continue checking
-            }
-            else {
-                //node is right child, rotate left
-                if (node == parent->rightChild) {
-                    node = parent;
-                    rotateLeft(node);
-                }
-                    //node is left child, rotate right and fix colors
-                    parent = node->parent;
-                    grandparent = parent->parent;
-                    parent->color = black;
-                    grandparent->color = red;
-                    rotateRight(grandparent);
-                }
-            }
-        else {
-                //same logic as bove, but mirrored for when parent is a right child
-            Node* uncle = grandparent->leftChild;
-
-            //if uncle is red, recolor
-            if (uncle and uncle->color == red) {
-                parent->color = black;
-                uncle->color
-            }
-        }
-    }
-}
 
 void RedBlackTree::rotateLeft(Node* x) {
     Node* y = x->rightChild; //right child of x
@@ -130,3 +91,66 @@ void RedBlackTree::rotateRight(Node* y) {
     x->rightChild = y; //y becomes the right child of x
     y->parent = x; //update y's parent to x
 }
+
+void RedBlackTree::fixInsert(Node* node) {
+    //this function will fix the red-black tree properties after insertion
+    while (node != root && node->parent->color == red) {
+        //keep fixing until either the root or the parent is black
+        Node* parent = node->parent;
+        Node* grandparent = parent->parent;
+
+        if (parent == grandparent->leftChild) {
+            //if parent is the child of the grandparent
+            Node* uncle = grandparent->rightChild; //sibling of the parent
+
+            if (uncle && uncle->color == red) {
+                //if uncle is red, just recolor
+                parent->color = black;
+                uncle->color = black;
+                grandparent->color = red;
+                node = grandparent; //move up tree and continue checking
+            }
+            else {
+                //node is right child, rotate left
+                if (node == parent->rightChild) {
+                    node = parent;
+                    rotateLeft(node);
+                }
+                //node is left child, rotate right and fix colors
+                parent = node->parent;
+                grandparent = parent->parent;
+                parent->color = black;
+                grandparent->color = red;
+                rotateRight(grandparent);
+            }
+        }
+        else {
+            //same logic as bove, but mirrored for when parent is a right child
+            Node* uncle = grandparent->leftChild;
+            //if uncle is red, recolor
+            if (uncle and uncle->color == red) {
+                parent->color = black;
+                uncle->color = black;
+                grandparent->color = red;
+                node = grandparent;
+            }
+            else {
+                //if node is left child, rotate right first
+                if (node == parent->leftChild) {
+                    node = parent;
+                    rotateRight(node);
+                }
+
+                //node is right child, rotate left and recolor
+                parent = node->parent;
+                grandparent = parent->parent;
+                parent->color = black;
+                grandparent->color = red;
+                rotateLeft(grandparent);
+            }
+        }
+    }
+
+    root->color = black; //make sure root is always black
+}
+
