@@ -13,6 +13,9 @@ private:
     Node* root;
     void deleteTree(Node* node);
     Node* addHelper(Node* node, int value, Node* parent);
+    void fixInsert(Node* node);
+    void rotateLeft(Node* x);
+    void rotateRight(Node* y);
 
 };
 

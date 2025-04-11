@@ -43,3 +43,90 @@ Node* RedBlackTree::addHelper(Node* node, int value, Node* parent) {
     return node;
 }
 
+void RedBlackTree::fixInsert(Node* node) {
+    //this function will fix the red-black tree properties after insertion
+    while (node != root && node->parent->color == red) {
+        //keep fixing until either the root or the parent is black
+        Node* parent = node->parent;
+        Node* grandparent = parent->parent;
+
+        if (parent == grandparent->leftChild) {
+            //if parent is the child of the grandparent
+            Node* uncle = grandparent->rightChild; //sibling of the parent
+
+            if (uncle && uncle->color == red) {
+                //if uncle is red, just recolor
+                parent->color = black;
+                uncle->color = black;
+                grandparent->color = red;
+                node = grandparent; //move up tree and continue checking
+            }
+            else {
+                //node is right child, rotate left
+                if (node == parent->rightChild) {
+                    node = parent;
+                    rotateLeft(node);
+                }
+                    //node is left child, rotate right and fix colors
+                    parent = node->parent;
+                    grandparent = parent->parent;
+                    parent->color = black;
+                    grandparent->color = red;
+                    rotateRight(grandparent);
+                }
+            }
+        else {
+                //same logic as bove, but mirrored for when parent is a right child
+            Node* uncle = grandparent->leftChild;
+
+            //if uncle is red, recolor
+            if (uncle and uncle->color == red) {
+                parent->color = black;
+                uncle->color
+            }
+        }
+    }
+}
+
+void RedBlackTree::rotateLeft(Node* x) {
+    Node* y = x->rightChild; //right child of x
+    x->rightChild = y->leftChild; //y's left child becomes x's right child
+    if (y->leftChild) {
+        y->leftChild->parent = x; //if leftchild of y isnt nullptr, update
+    }
+    y->parent = x->parent; //make y's parent the same as x's parent
+
+    if (!x->parent) {
+        root = y; //if x was the root, make y the new root
+    }
+    else if (x == x->parent->leftChild) {
+        x->parent->leftChild = y; //if x was a left child, y becomes the left child
+    }
+    else {
+        x->parent->rightChild = y; //if x was a right child, y becomes the right child
+    }
+    y->leftChild = x; //x becomes the left child of y
+    x->parent = y; //update x's parent to y
+}
+
+void RedBlackTree::rotateRight(Node* y) {
+    Node* x = y->leftChild; //left child of y
+    y->leftChild = x->rightChild; //x's right child becomes y's left child
+    if (x->rightChild != nullptr) {
+        x->rightChild->parent = y; //update the parent of x's right child
+    }
+    x->parent = y->parent; //make x's parent the same as y's parent
+
+    if (!y->parent) {
+        root = x; //if y was the root, make x the new root
+    }
+    else if (y == y->parent->rightChild) {
+        y->parent->rightChild = x; //if y was a right child, x becomes the right child
+    }
+    else {
+        y->parent->leftChild = x; //if y was a left child, x becomes the left child
+    }
+
+    x->rightChild = y; //y becomes the right child of x
+    y->parent = x; //update y's parent to x
+}
