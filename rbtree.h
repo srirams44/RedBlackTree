@@ -9,6 +9,7 @@ public:
     RedBlackTree();
     ~RedBlackTree();
     void add(int value);
+    void print();
 private:
     Node* root;
     void deleteTree(Node* node);
@@ -16,6 +17,7 @@ private:
     void fixInsert(Node* node);
     void rotateLeft(Node* x);
     void rotateRight(Node* y);
+    void printHelper(Node* node, int level);
 
 };
 

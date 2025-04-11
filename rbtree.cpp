@@ -1,4 +1,5 @@
 #include "rbtree.h"
+#include <queue>
 
 RedBlackTree::RedBlackTree() {
     root = nullptr;
@@ -94,7 +95,7 @@ void RedBlackTree::rotateRight(Node* y) {
 
 void RedBlackTree::fixInsert(Node* node) {
     //this function will fix the red-black tree properties after insertion
-    while (node != root && node->parent->color == red) {
+    while (node != root and node->parent->color == red) {
         //keep fixing until either the root or the parent is black
         Node* parent = node->parent;
         Node* grandparent = parent->parent;
@@ -103,7 +104,7 @@ void RedBlackTree::fixInsert(Node* node) {
             //if parent is the child of the grandparent
             Node* uncle = grandparent->rightChild; //sibling of the parent
 
-            if (uncle && uncle->color == red) {
+            if (uncle and uncle->color == red) {
                 //if uncle is red, just recolor
                 parent->color = black;
                 uncle->color = black;
@@ -154,3 +155,29 @@ void RedBlackTree::fixInsert(Node* node) {
     root->color = black; //make sure root is always black
 }
 
+void RedBlackTree::print() {
+    printHelper(root, 0);
+}
+
+void RedBlackTree::printHelper(Node* node, int level) {
+    if (node == nullptr) {
+        return;
+    }
+
+    printHelper(node->rightChild, level + 1); // Print right subtree first
+
+    for (int i = 0; i < level; ++i) {
+        cout << "\t"; // Indent for level
+    }
+
+    // Print node data + color
+    cout << node->data;
+    if (node->color == black) {
+        cout << "B";
+    } else {
+        cout << "R";
+    }
+    cout << endl;
+
+    printHelper(node->leftChild, level + 1); // Then print left subtree
+}

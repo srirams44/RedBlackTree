@@ -2,7 +2,7 @@
 #define NODE_H
 #include <iostream>
 using namespace std;
-
+//comment for commit
 enum Color {
     red,
     black
