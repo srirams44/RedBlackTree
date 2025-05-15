@@ -12,7 +12,7 @@ int main() {
     RedBlackTree myTree;
     while (true) {
         char input[100] = "";
-        cout << "What would you like to do? (ADD/PRINT/QUIT): ";
+        cout << "What would you like to do? (ADD/PRINT/SEARCH/DELETE/QUIT): ";
         cin.getline(input, 100);
 
         if (strcasecmp(input, "ADD") == 0) {
@@ -49,6 +49,15 @@ int main() {
         }
         else if (strcasecmp(input, "QUIT") == 0) {
             return 0;
+        }
+        else if (strcasecmp(input, "SEARCH") == 0) {
+            cout << "Enter a value to look for: ";
+            int num;
+            cin >> num;
+            myTree.search(num);
+            cin.ignore(1000, '\n');
+        }
+        else if (strcasecmp(input, "DELETE") == 0) {
         }
         else {
             cout << "Invalid input." << endl;

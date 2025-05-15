@@ -1,5 +1,4 @@
 #include "rbtree.h"
-#include <queue>
 
 RedBlackTree::RedBlackTree() {
     root = nullptr;
@@ -181,3 +180,109 @@ void RedBlackTree::printHelper(Node* node, int level) {
 
     printHelper(node->leftChild, level + 1); // Then print left subtree
 }
+
+
+void RedBlackTree::search(int value) {
+    if (!root) {
+        cout << "Tree is empty." << endl;
+        return;
+    }
+    searchHelper(root, value);
+}
+
+void RedBlackTree::searchHelper(Node* current, int value) {
+    if (!current) {
+        cout << "Value is not in tree." << endl;
+        return;
+    }
+    if (value == current->data) {
+        cout << value << " is in tree." << endl;
+        return;
+    }
+    if (value > current->data) { //if target value is larger then node value, go to right child
+        searchHelper(current->rightChild, value);
+    }
+    else { //if target value is not larger or equal to, must be smaller, go to left child
+        searchHelper(current->leftChild, value);
+    }
+}
+
+void RedBlackTree::deleteValue(int value) {
+    if (!root) { //if tree is empty, nothing to delete
+        cout << "Nothing to delete." << endl;
+        return;
+    }
+
+}
+
+void RedBlackTree::deleteHelper() {
+    //first perform bst deletion
+
+    /* after deletion fixDelete is needed
+     * if deleted node or replacement is black, do red-black fix-up cases
+     *
+     */
+}
+
+/*
+
+Node* RedBlackTree::findMin(Node* node) {
+    while (node->leftChild != nullptr) {
+        node = node->leftChild;
+    }
+    return node;
+}
+
+void RedBlackTree::deleteValue(int value) {
+    if (!root) {
+        cout << "Nothing to delete." << endl;
+        return;
+    }
+    root = deleteHelper(root, value);
+    if (root) root->parent = nullptr;
+}
+
+ Node* RedBlackTree::deleteHelper(Node* node, int value) {
+    if (!node) {
+        cout << "Node not found." << endl;
+        return nullptr;
+    }
+
+    if (value < node->data) {
+        node->leftChild = deleteHelper(node->leftChild, value);
+        if (node->leftChild) node->leftChild->parent = node;
+    }
+    else if (value > node->data) {
+        node->rightChild = deleteHelper(node->rightChild, value);
+        if (node->rightChild) node->rightChild->parent = node;
+    }
+    else {
+        // Case 1: No children
+        if (!node->leftChild && !node->rightChild) {
+            delete node;
+            return nullptr;
+        }
+        // Case 2: One child
+        else if (!node->leftChild) {
+            Node* temp = node->rightChild;
+            temp->parent = node->parent;
+            delete node;
+            return temp;
+        }
+        else if (!node->rightChild) {
+            Node* temp = node->leftChild;
+            temp->parent = node->parent;
+            delete node;
+            return temp;
+        }
+        // Case 3: Two children
+        else {
+            Node* successor = findMin(node->rightChild);
+            node->data = successor->data;
+            node->rightChild = deleteHelper(node->rightChild, successor->data);
+            if (node->rightChild) node->rightChild->parent = node;
+        }
+    }
+
+    return node;
+} */

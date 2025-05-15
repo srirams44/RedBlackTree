@@ -3,13 +3,14 @@
 #include "node.h"
 
 
-
 class RedBlackTree {
 public:
     RedBlackTree();
     ~RedBlackTree();
     void add(int value);
     void print();
+    void deleteValue(int value);
+    void search(int value);
 private:
     Node* root;
     void deleteTree(Node* node);
@@ -18,6 +19,10 @@ private:
     void rotateLeft(Node* x);
     void rotateRight(Node* y);
     void printHelper(Node* node, int level);
+    void searchHelper(Node* current, int value);
+    //Node* deleteHelper(Node* node, int value);
+    //Node* findMin(Node* node);
+    //void fixDelete(Node* node);
 
 };
 
