@@ -20,9 +20,9 @@ private:
     void rotateRight(Node* y);
     void printHelper(Node* node, int level);
     void searchHelper(Node* current, int value);
-    //Node* deleteHelper(Node* node, int value);
-    //Node* findMin(Node* node);
-    //void fixDelete(Node* node);
+    Node* deleteHelper(Node* node, int value);
+    Node* findMin(Node* node);
+    void fixDelete(Node* node);
 
 };
 

@@ -58,9 +58,16 @@ int main() {
             cin.ignore(1000, '\n');
         }
         else if (strcasecmp(input, "DELETE") == 0) {
+            cout << "Enter a value to delete: ";
+            int num;
+            cin >> num;
+            myTree.deleteValue(num);
+            cin.ignore(1000, '\n');
         }
         else {
             cout << "Invalid input." << endl;
         }
     }
 }
+
+
