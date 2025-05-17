@@ -260,14 +260,75 @@ Node* RedBlackTree::deleteHelper(Node* node, int value) {
     return node; //return updated subtree
 }
 
+void RedBlackTree::fixDelete(Node* node) {
+    if (!node) { //if node is nullptr, nothing to fix
+        return;
+    }
+}
+
+/*
+fix until node is root or node is red, either case color black and done
+cases when node is left child
+ case 1: sibling is red
+ - change sibling to black
+ - change parent to red
+ - left rotation on parent
+ - update sibling pointer (new sibling should be black)
+
+ case 2: sibling is black with both black children
+ - change sibling to red
+ - move node pointer up to the parent
+ - continue the loop with parent as the new node
+
+ case 3: sibling is black with red left child and black right child
+ - change siblings left child to black
+ - change sibling to red
+ - right rotation on sibling
+ - update sibling pointer
+ case 3 will then change into case 4
+
+ case 4: sibling is black with red right child
+ - set sibling color to parent color
+ - set parent to black
+ - set siblings right child to black
+ - left rotate on parent
+ - change node to root and exit
+
+
+case when node is a right child
+case 1: sibling is red
+- change sibling to black
+- change parent to red
+- right rotate on parent
+- update sibling pointer
+
+case 2: sibling is black with both black children
+- change sibling to red
+- move node pointer up to parent
+- continue the loop with parent as the new node
+
+case 3: sibling is black with red right child and black left child
+- change siblings right child to black
+- change sibling to red
+- left rotate on sibling
+- update sibling pointer
+- transforms to case 4
+
+case 4: sibling is black with red left child
+- set sibling's color to parent's color
+- set parent to black
+- set siblings left child to black
+- right rotate on parent
+- node becomes root and exit
+
+final step - ensure node is black
 
 
 
-
-
-/* Steps for deleting nodes
+ Steps for deleting nodes
  * 1. If node to be deleted has no children, simply remove and update parent node
  * 2. If node to be deleted has only one child, replace node with its child.
  * 3. If node to be deleted has two children, replace node with in-order successor.
  * 4. To fix violations, color changes and rotations must be performed on nodes in tree.
  */
+

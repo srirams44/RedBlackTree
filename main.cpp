@@ -4,8 +4,12 @@
 #include "rbtree.h"
 using namespace std;
 
-/*
- *Used geesforgeeks.org for some of the logic & learning in this project
+/* sources used
+ * geeksforgeeks.org
+ * https://www.cs.purdue.edu/homes/ayg/CS251/slides/chap13c.pdf
+ * https://www.youtube.com/watch?v=iw8N1_keEWA&t=1s - videos in his series
+ *
+ *
  */
 
 int main() {
